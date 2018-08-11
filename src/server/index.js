@@ -10,8 +10,4 @@ require('../config/persistence/mongodb/connectdb');
 // listen to requests
 app.listen( () => console.info(`server started on port ${config.get('server.port')} (${config.get('env')})`));
 
-/**
-* Exports express
-* @public
-*/
-module.exports = app;
+export default app;

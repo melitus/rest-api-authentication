@@ -1,14 +1,11 @@
-const BearerStrategy = require('passport-http-bearer');
-const { ExtractJwt } = require('passport-jwt');
-import LocalStrategy from 'passport-local';
+import BearerStrategy from 'passport-http-bearer';
+import { ExtractJwt } from 'passport-jwt';
 
-const { jwtSecret } = require('./vars');
-const authProviders = require('../services/authProviders');
-const User = require('../models/user.model');
+import { jwtSecret } from './vars';
+import authProviders from '../services/authProviders';
+import User from '../models/user.model';
 
 const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-
 
 const jwtOptions = {
   secretOrKey: jwtSecret,
