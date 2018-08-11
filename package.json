@@ -1,0 +1,29 @@
+{
+  "name": "rest-api-authentication",
+  "version": "1.0.0",
+  "description": "This is to demonstrate how to authenticate a user to use rest api endpoints",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melitus/rest-api-authentication.git"
+  },
+  "keywords": [
+    "ES6",
+    "ES7",
+    "ExpressJs",
+    "MongoDB",
+    "Airbnb",
+    "Eslint",
+    "Nodemon",
+    "Babel"
+  ],
+  "author": "Aroh Sunday",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/melitus/rest-api-authentication/issues"
+  },
+  "homepage": "https://github.com/melitus/rest-api-authentication#readme"
+}
