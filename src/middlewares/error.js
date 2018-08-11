@@ -8,7 +8,7 @@ import { env } from '../config/vars';
  * Error handler. Send stacktrace only during development
  * @public
  */
-const handler = (err, req, res, next) => {
+export const handler = (err, req, res, next) => {
   const response = {
     code: err.status,
     message: err.message || httpStatus[err.status],
@@ -24,7 +24,6 @@ const handler = (err, req, res, next) => {
   res.json(response);
   res.end();
 };
-export const handler = handler;
 
 /**
  * If error is not an instanceOf APIError, convert it.

@@ -92,6 +92,7 @@ const config = convict({
       env: 'MONGO_PASS',
       arg: 'mongo-pass',
     },
+  },
   authentication: {
     google: {
         clientId: {
@@ -141,7 +142,7 @@ const config = convict({
     }
 },
   
-  }
+  
 });
 
 // load environment dependent configuration

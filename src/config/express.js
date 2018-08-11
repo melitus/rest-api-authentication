@@ -8,15 +8,15 @@ import helmet from 'helmet';
 import passport from 'passport';
 
 import strategies from './passport';
+import routes from '../routes/v1';
+import { logs } from './vars';
+import config from '../config/config';
 
-/**
-* Express instance
-* @public
-*/
+// Express instance
 const app = express();
 
 // request logging. dev: console | production: file
-app.use(morgan(logs));
+app.use(morgan(config.get('env')));
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
@@ -38,6 +38,11 @@ app.use(cors());
 // enable authentication
 app.use(passport.initialize());
 passport.use('jwt', strategies.jwt);
+passport.use('facebook', strategies.facebook);
+passport.use('google', strategies.google);
+
+// mount api v1 routes
+app.use('/v1', routes);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(error.converter);
@@ -48,4 +53,4 @@ app.use(error.notFound);
 // error handler, send stacktrace only during development
 app.use(error.handler);
 
-module.exports = app;
+export default app;

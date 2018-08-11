@@ -4,15 +4,17 @@ import { ExtractJwt } from 'passport-jwt';
 import { jwtSecret } from './vars';
 import authProviders from '../services/authProviders';
 import User from '../models/user.model';
+import config from '../config/config';
+
 
 const JwtStrategy = require('passport-jwt').Strategy;
-
+const getsecret = config.get('authentication.token.secret')
 const jwtOptions = {
-  secretOrKey: jwtSecret,
+  secretOrKey: getsecret,
   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
 };
 
-const jwt = async (payload, done) => {
+const jwts = async (payload, done) => {
   try {
     const user = await User.findById(payload.sub);
     if (user) return done(null, user);
@@ -32,6 +34,6 @@ const oAuth = service => async (token, done) => {
   }
 };
 
-exports.jwt = new JwtStrategy(jwtOptions, jwt);
-exports.facebook = new BearerStrategy(oAuth('facebook'));
-exports.google = new BearerStrategy(oAuth('google'));
+export const jwt = new JwtStrategy(jwtOptions, jwts);
+export const facebook = new BearerStrategy(oAuth('facebook'));
+export const google = new BearerStrategy(oAuth('google'));

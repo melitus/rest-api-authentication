@@ -24,11 +24,8 @@ router.route('/login')
 router.route('/refresh-token')
   .post(validate(refresh), controller.refresh);
 
-
-/**
- * TODO: POST /v1/auth/reset-password
- */
-
+// TODO: POST /v1/auth/reset-password
+ 
 // POST- v1/auth/facebook Facebook Login
 router.route('/facebook')
   .post(validate(oAuth), oAuthLogin('facebook'), controller.oAuth);

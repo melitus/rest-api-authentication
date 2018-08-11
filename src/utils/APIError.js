@@ -36,4 +36,4 @@ class APIError extends ExtendableError {
   }
 }
 
-export const APIError;
+export default APIError;
