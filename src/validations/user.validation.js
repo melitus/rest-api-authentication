@@ -1,8 +1,7 @@
-import Joi from 'joi';
+const Joi = require('joi');
+const User = require('../models/user.model');
 
-import User from '../models/user.model';
-
-export default {
+module.exports = {
 
   // GET /v1/users
   listUsers: {

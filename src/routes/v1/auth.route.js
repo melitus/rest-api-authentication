@@ -1,15 +1,15 @@
-import express from 'express';
-import validate from 'express-validation';
+const express = require('express');
+const validate = require('express-validation');
 
-import controller from '../../controllers/auth.controller';
-import {
+const controller = require('../../controllers/auth.controller');
+const oAuthLogin = require('../../middlewares/auth').oAuth;
+const {
   login,
   register,
   oAuth,
   refresh,
-} from '../../validations/auth.validation';
+} = require('../../validations/auth.validation');
 
-const oAuthLogin = require('../../middlewares/auth').oAuth;
 const router = express.Router();
 
 // POST- v1/auth/register Register
@@ -24,8 +24,11 @@ router.route('/login')
 router.route('/refresh-token')
   .post(validate(refresh), controller.refresh);
 
-// TODO: POST /v1/auth/reset-password
- 
+
+/**
+ * TODO: POST /v1/auth/reset-password
+ */
+
 // POST- v1/auth/facebook Facebook Login
 router.route('/facebook')
   .post(validate(oAuth), oAuthLogin('facebook'), controller.oAuth);
@@ -35,4 +38,4 @@ router.route('/google')
   .post(validate(oAuth), oAuthLogin('google'), controller.oAuth);
 
 
-export default router;
+module.exports = router;

@@ -1,13 +1,13 @@
-import mongoose from 'mongoose';
-import httpStatus from 'http-status';
-import { omitBy, isNil } from 'lodash';
-import bcrypt from 'bcryptjs';
-import moment from 'moment-timezone';
-import jwt from 'jwt-simple';
-import uuidv4 from 'uuid/v4';
+const mongoose = require('mongoose');
+const httpStatus = require('http-status');
+const { omitBy, isNil } = require('lodash');
+const bcrypt = require('bcryptjs');
+const moment = require('moment-timezone');
+const jwt = require('jwt-simple');
+const uuidv4 = require('uuid/v4');
 
-import APIError from '../utils/APIError';
-import { env, jwtSecret, jwtExpirationInterval } from '../config/vars';
+const APIError = require('../utils/APIError');
+const { env, jwtSecret, jwtExpirationInterval } = require('../config/vars');
 
 /**
 * User Roles
@@ -16,6 +16,7 @@ const roles = ['user', 'admin'];
 
 /**
  * User Schema
+ * @private
  */
 const userSchema = new mongoose.Schema({
   email: {
@@ -114,6 +115,9 @@ userSchema.statics = {
 
   /**
    * Get user
+   *
+   * @param {ObjectId} id - The objectId of user.
+   * @returns {Promise<User, APIError>}
    */
   async get(id) {
     try {
@@ -137,6 +141,9 @@ userSchema.statics = {
 
   /**
    * Find user by email and tries to generate a JWT token
+   *
+   * @param {ObjectId} id - The objectId of user.
+   * @returns {Promise<User, APIError>}
    */
   async findAndGenerateToken(options) {
     const { email, password, refreshObject } = options;
@@ -166,6 +173,10 @@ userSchema.statics = {
 
   /**
    * List users in descending order of 'createdAt' timestamp.
+   *
+   * @param {number} skip - Number of users to be skipped.
+   * @param {number} limit - Limit number of users to be returned.
+   * @returns {Promise<User[]>}
    */
   list({
     page = 1, perPage = 30, name, email, role,
@@ -182,6 +193,9 @@ userSchema.statics = {
   /**
    * Return new validation error
    * if error is a mongoose duplicate key error
+   *
+   * @param {Error} error
+   * @returns {Error|APIError}
    */
   checkDuplicateEmail(error) {
     if (error.name === 'MongoError' && error.code === 11000) {
@@ -220,6 +234,4 @@ userSchema.statics = {
 /**
  * @typedef User
  */
-const User = mongoose.model('User', userSchema);
-
-export default User;
+module.exports = mongoose.model('User', userSchema);

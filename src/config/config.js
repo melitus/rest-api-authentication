@@ -1,4 +1,4 @@
-import convict from 'convict';
+const convict = require('convict');
 
 // this loads the defined variables from .env
 require('dotenv').config(); 
@@ -152,4 +152,4 @@ const config = convict({
 // throws error if config does not conform to schema
 config.validate({ allowed: 'strict' });
 
-export default config;
+module.exports = config;

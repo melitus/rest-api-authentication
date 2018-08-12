@@ -1,14 +1,14 @@
-import httpStatus from 'http-status';
-import { omit } from 'lodash';
+const httpStatus = require('http-status');
+const { omit } = require('lodash');
 
-import User from '../models/user.model';
-import { handler as errorHandler } from '../middlewares/error';
+const User = require('../models/user.model');
+const { handler: errorHandler } = require('../middlewares/error');
 
 /**
  * Load user and append to req.
  * @public
  */
-export const load = async (req, res, next, id) => {
+exports.load = async (req, res, next, id) => {
   try {
     const user = await User.get(id);
     req.locals = { user };
@@ -22,19 +22,19 @@ export const load = async (req, res, next, id) => {
  * Get user
  * @public
  */
-export const get = (req, res) => res.json(req.locals.user.transform());
+exports.get = (req, res) => res.json(req.locals.user.transform());
 
 /**
  * Get logged in user info
  * @public
  */
-export const loggedIn = (req, res) => res.json(req.user.transform());
+exports.loggedIn = (req, res) => res.json(req.user.transform());
 
 /**
  * Create new user
  * @public
  */
-export const create = async (req, res, next) => {
+exports.create = async (req, res, next) => {
   try {
     const user = new User(req.body);
     const savedUser = await user.save();
@@ -49,7 +49,7 @@ export const create = async (req, res, next) => {
  * Replace existing user
  * @public
  */
-export const replace = async (req, res, next) => {
+exports.replace = async (req, res, next) => {
   try {
     const { user } = req.locals;
     const newUser = new User(req.body);
@@ -69,7 +69,7 @@ export const replace = async (req, res, next) => {
  * Update existing user
  * @public
  */
-export const update = (req, res, next) => {
+exports.update = (req, res, next) => {
   const ommitRole = req.locals.user.role !== 'admin' ? 'role' : '';
   const updatedUser = omit(req.body, ommitRole);
   const user = Object.assign(req.locals.user, updatedUser);
@@ -83,7 +83,7 @@ export const update = (req, res, next) => {
  * Get user list
  * @public
  */
-export const list = async (req, res, next) => {
+exports.list = async (req, res, next) => {
   try {
     const users = await User.list(req.query);
     const transformedUsers = users.map(user => user.transform());
@@ -97,7 +97,7 @@ export const list = async (req, res, next) => {
  * Delete user
  * @public
  */
-export const remove = (req, res, next) => {
+exports.remove = (req, res, next) => {
   const { user } = req.locals;
 
   user.remove()
