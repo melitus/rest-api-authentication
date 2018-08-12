@@ -1,9 +1,9 @@
-import httpStatus from 'http-status';
-import moment from 'moment-timezone';
+const httpStatus = require('http-status');
+const moment = require('moment-timezone');
 
-import User from '../models/user.model';
-import RefreshToken from '../models/refreshToken.model';
-import { jwtExpirationInterval } from '../config/vars';
+const User = require('../models/user.model');
+const RefreshToken = require('../models/refreshToken.model');
+const { jwtExpirationInterval } = require('../config/vars');
 
 /**
 * Returns a formated object with tokens
@@ -22,7 +22,7 @@ function generateTokenResponse(user, accessToken) {
  * Returns jwt token if registration was successful
  * @public
  */
-export const register = async (req, res, next) => {
+exports.register = async (req, res, next) => {
   try {
     const user = await (new User(req.body)).save();
     const userTransformed = user.transform();
@@ -38,7 +38,7 @@ export const register = async (req, res, next) => {
  * Returns jwt token if valid username and password is provided
  * @public
  */
-export const login = async (req, res, next) => {
+exports.login = async (req, res, next) => {
   try {
     const { user, accessToken } = await User.findAndGenerateToken(req.body);
     const token = generateTokenResponse(user, accessToken);
@@ -54,7 +54,7 @@ export const login = async (req, res, next) => {
  * Returns jwt token
  * @public
  */
-export const oAuth = async (req, res, next) => {
+exports.oAuth = async (req, res, next) => {
   try {
     const { user } = req;
     const accessToken = user.token();
@@ -70,7 +70,7 @@ export const oAuth = async (req, res, next) => {
  * Returns a new jwt when given a valid refresh token
  * @public
  */
-export const refresh = async (req, res, next) => {
+exports.refresh = async (req, res, next) => {
   try {
     const { email, refreshToken } = req.body;
     const refreshObject = await RefreshToken.findOneAndRemove({

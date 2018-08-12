@@ -1,22 +1,25 @@
-import express from 'express';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
-import compress from 'compression';
-import methodOverride from 'method-override';
-import cors from 'cors';
-import helmet from 'helmet';
-import passport from 'passport';
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const compress = require('compression');
+const methodOverride = require('method-override');
+const cors = require('cors');
+const helmet = require('helmet');
+const passport = require('passport');
 
-import strategies from './passport';
-import routes from '../routes/v1';
-import { logs } from './vars';
-import config from '../config/config';
+const routes = require('../routes/v1');
+const { logs } = require('./vars');
+const strategies = require('./passport');
+const error = require('../middlewares/error');
 
-// Express instance
+/**
+* Express instance
+* @public
+*/
 const app = express();
 
 // request logging. dev: console | production: file
-app.use(morgan(config.get('env')));
+app.use(morgan(logs));
 
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
@@ -53,4 +56,4 @@ app.use(error.notFound);
 // error handler, send stacktrace only during development
 app.use(error.handler);
 
-export default app;
+module.exports = app;
